@@ -1,5 +1,6 @@
 var PLAY = 1;
 var END = 0;
+var WIN=2;
 var gameState = PLAY;
 
 var invGround,mario,peach;
@@ -35,6 +36,8 @@ function setup() {
 // mario.debug=true;
  mario.addImage("image",marioimg);
  mario.scale=0.07;
+
+ 
  
  
  groundGroup=new Group();
@@ -44,10 +47,10 @@ function setup() {
 
 function draw() {
   background(0);
-  
-
+  drawSprites();
+if(gameState===PLAY){
   mario.collide(invGround);
- if(keyDown(32) && mario.x<300){
+ if(keyDown(32) && mario.y>30){
    mario.velocityY=-9;
  }
  mario.velocityY=mario.velocityY+0.4
@@ -57,10 +60,54 @@ function draw() {
  spawnGround();
  spawnCoins();
  spawnEnemy();
- mario.collide(groundGroup);
- //groundGroup.collide(invGround);
-  drawSprites();
+
+ for(var i=0;i<coinsGroup.length;i++){
+  var coinG=coinsGroup.get(i);
+  if( mario.isTouching(coinG)){
+    coinG.destroy();
+    score+=1;
+  }
+ }
+if(score===1){
+  gameState=WIN;
+ 
 }
+
+ if(mario.x<0 || mario.y<0 || mario.x>1200 || mario.y>400|| enemyGroup.isTouching(mario)){
+gameState=END
+ }
+
+
+}
+if(gameState===WIN){groundGroup.setVelocityXEach(0);
+  coinsGroup.setVelocityXEach(0);
+  enemyGroup.setVelocityXEach(0);
+
+  mario.velocityY=0;
+
+  peach=createSprite(120,150,30,30);
+  peach.addImage("img",peachimg);
+  peach.scale=0.09;
+
+  text("You win level 1",600,200);
+}
+
+if(gameState===END){
+groundGroup.setVelocityXEach(0);
+coinsGroup.setVelocityXEach(0);
+enemyGroup.setVelocityXEach(0);
+
+
+}
+
+ mario.collide(groundGroup);
+ 
+  
+  text("Your score is "+score,1100,20);
+  text("You have to get 25 coins to win",10,300);
+}
+
+
 function spawnGround(){
   if(frameCount %55===0){
 var ground=createSprite(1200,random(150,350),100,40);
@@ -72,8 +119,8 @@ groundGroup.add(ground);
 }
 
 function spawnCoins(){
-  if(frameCount %40===0){
-var coins=createSprite(1200,random(150,250),20,20);
+  if(frameCount %30===0){
+var coins=createSprite(1200,random(90,150),20,20);
  coins.addImage("coins",coinimg);
  coins.velocityX=-9;
  coins.scale=0.09;
@@ -83,11 +130,11 @@ var coins=createSprite(1200,random(150,250),20,20);
 }
 
 function spawnEnemy(){
-if(frameCount %63===0){
-var enemy= createSprite(1200,360,30,100);
+if(frameCount %70===0){
+var enemy= createSprite(1200,340,30,100);
 enemy.addImage("img",enemyimg);
 enemy.velocityX=-9;
-enemy.scale=0.2;
+enemy.scale=0.3;
 enemyGroup.add(enemy);
 }
 
