@@ -12,7 +12,7 @@ function bounceOff(obj1,obj2){
   
   }
 
-  function collide(object1,object2){
+  function collide1(object1,object2){
   if(object1.y-object2.y<object1.height/2 + object2.height/2){
   //console.log("yes");
     object2.shapeColor="blue"

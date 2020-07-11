@@ -1,6 +1,7 @@
 var PLAY = 1;
 var END = 0;
 var WIN=2;
+var START=3;
 var gameState = PLAY;
 
 var invGround,mario,peach;
@@ -8,6 +9,7 @@ var groundGroup,enemyGroup,coinsGroup;
 var blockimg,coinimg,marioimg,peachimg,enemyimg;
 var bg,bgimg;
 var score=0;
+
 
 var gameOver, restart;
 
@@ -19,6 +21,8 @@ bgimg=loadImage("Pics/bg.jpg");
 blockimg=loadImage("Pics/block.png");
 coinimg=loadImage("Pics/coin.png");
 enemyimg=loadImage("Pics/enemy.png");
+level1img=loadImage("Pics/level1.png");
+level2img=loadImage("Pics/level2.png");
 }
 
 function setup() {
@@ -37,8 +41,7 @@ function setup() {
  mario.addImage("image",marioimg);
  mario.scale=0.07;
 
- 
- 
+
  
  groundGroup=new Group();
  coinsGroup=new Group();
@@ -48,6 +51,11 @@ function setup() {
 function draw() {
   background(0);
   drawSprites();
+  if(gameState===START){
+
+
+
+  }
 if(gameState===PLAY){
   mario.collide(invGround);
  if(keyDown(32) && mario.y>30){
@@ -68,7 +76,12 @@ if(gameState===PLAY){
     score+=1;
   }
  }
-if(score===1){
+ if(score===5){
+   coinsGroup.velocityX=-12;
+   groundGroup.velocityX=-12;
+   enemyGroup.velocityX=-12;
+ }
+if(score===15){
   gameState=WIN;
  
 }
@@ -79,7 +92,9 @@ gameState=END
 
 
 }
-if(gameState===WIN){groundGroup.setVelocityXEach(0);
+if(gameState===WIN){
+  
+  groundGroup.setVelocityXEach(0);
   coinsGroup.setVelocityXEach(0);
   enemyGroup.setVelocityXEach(0);
 
@@ -90,6 +105,8 @@ if(gameState===WIN){groundGroup.setVelocityXEach(0);
   peach.scale=0.09;
 
   text("You win level 1",600,200);
+
+
 }
 
 if(gameState===END){
@@ -104,7 +121,7 @@ enemyGroup.setVelocityXEach(0);
  
   
   text("Your score is "+score,1100,20);
-  text("You have to get 25 coins to win",10,300);
+  text("You have to get 15 coins to win",10,300);
 }
 
 
