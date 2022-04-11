@@ -30,7 +30,7 @@
       mario=createSprite(840,500,0,0);
       mario.addImage("mario",marioimg);
       mario.scale=0.04;
-      mario.debug=true;
+      
 
       princess=createSprite(310,100,0,0);
       princess.addImage("peach",peachimg);
